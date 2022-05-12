@@ -1,25 +1,46 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: useradd
-  namespace: useradd
+  name: hello
+  namespace: teste-app
   labels:
-    app: useradd
+    app: hello
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: useradd
+      app: hello
   strategy: {}
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        app: useradd
+        app: hello
     spec:
       containers:
-      - image: ailtonmsj/useradd-jvm:1.0.0
-        name: useradd-jvm
+      - image: ailtonmsj/hello-world-quarkus:1.0.0
+        name: hello
         imagePullPolicy: Always
-        resources: {}
-status: {}
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128M"
+          limits:
+            cpu: "200m"
+            memory: "256M"
+        ports:
+          - name: http-port
+            containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /q/health/ready
+            port: http-port
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          successThreshold: 1
+        livenessProbe:
+          httpGet:
+            path: /q/health/live
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 15
+          failureThreshold: 4

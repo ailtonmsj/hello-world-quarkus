@@ -1,23 +1,23 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: useradd
-  namespace: useradd
+  name: hello
+  namespace: teste-app
 spec:
   gateways:
-  - useradd-gateway
+  - hello-gateway
   hosts:
   - '*'
   http:
   - match:
     - uri:
-        prefix: /usuario
+        prefix: /hello
       method:
-        exact: POST
+        exact: GET
     rewrite:
-      uri: /usuario
+      uri: /hello
     route:
     - destination:
-        host: useradd
+        host: hello
         port:
           number: 8080

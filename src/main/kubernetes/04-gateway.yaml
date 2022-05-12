@@ -1,8 +1,8 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: useradd-gateway
-  namespace: useradd
+  name: hello-gateway
+  namespace: teste-app
 spec:
   selector:
     istio: ingressgateway
